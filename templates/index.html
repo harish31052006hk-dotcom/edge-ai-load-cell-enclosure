@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edge AI - Enclosure Quality Inspection Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-brand">
+            <div class="logo-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="2" width="20" height="8" rx="2"/>
+                    <rect x="2" y="14" width="20" height="8" rx="2"/>
+                    <line x1="6" y1="6" x2="6.01" y2="6"/>
+                    <line x1="6" y1="18" x2="6.01" y2="18"/>
+                </svg>
+            </div>
+            <div>
+                <h1>Edge AI Enclosure Inspection</h1>
+                <span class="sub-title">Ultralytics YOLO • Real-Time Vision System</span>
+            </div>
+        </div>
+
+        <div class="nav-telemetry">
+            <div class="telemetry-pill">
+                <span class="pill-label">MODEL</span>
+                <span class="pill-val">weights.pt</span>
+            </div>
+            <div class="telemetry-pill">
+                <span class="pill-label">FPS</span>
+                <span class="pill-val mono" id="nav-fps">0.0</span>
+            </div>
+            <div class="telemetry-pill">
+                <span class="status-dot" id="status-dot"></span>
+                <span class="pill-val" id="nav-camera-status">Checking...</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <!-- KPI Metric Cards -->
+        <section class="kpi-grid">
+            <div class="kpi-card assembled">
+                <div class="kpi-header">
+                    <span class="kpi-title">Assembled Enclosure</span>
+                    <span class="kpi-tag tag-assembled">enclosure_assembled</span>
+                </div>
+                <div class="kpi-body">
+                    <span class="kpi-number" id="count-assembled">0</span>
+                    <span class="kpi-unit">UNITS</span>
+                </div>
+                <div class="kpi-footer">Full assembly detected</div>
+            </div>
+
+            <div class="kpi-card top">
+                <div class="kpi-header">
+                    <span class="kpi-title">Top Cover</span>
+                    <span class="kpi-tag tag-top">top</span>
+                </div>
+                <div class="kpi-body">
+                    <span class="kpi-number" id="count-top">0</span>
+                    <span class="kpi-unit">PIECES</span>
+                </div>
+                <div class="kpi-footer">Individual top enclosure</div>
+            </div>
+
+            <div class="kpi-card bottom">
+                <div class="kpi-header">
+                    <span class="kpi-title">Bottom Base</span>
+                    <span class="kpi-tag tag-bottom">bottom</span>
+                </div>
+                <div class="kpi-body">
+                    <span class="kpi-number" id="count-bottom">0</span>
+                    <span class="kpi-unit">PIECES</span>
+                </div>
+                <div class="kpi-footer">Individual bottom enclosure</div>
+            </div>
+
+            <div class="kpi-card total">
+                <div class="kpi-header">
+                    <span class="kpi-title">Total Active Parts</span>
+                    <span class="kpi-tag tag-total">Live Total</span>
+                </div>
+                <div class="kpi-body">
+                    <span class="kpi-number" id="count-total">0</span>
+                    <span class="kpi-unit">OBJECTS</span>
+                </div>
+                <div class="kpi-footer">Simultaneous objects</div>
+            </div>
+        </section>
+
+        <!-- Main Workspace (Video Feed + Event Log) -->
+        <div class="content-split">
+            <!-- Left Panel: Live Stream & Hardware Controls -->
+            <section class="panel video-panel">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <span class="rec-indicator" id="rec-indicator"></span>
+                        <h2>Live Optical Stream</h2>
+                    </div>
+                    <div class="panel-controls">
+                        <button id="btn-start" class="btn btn-primary" onclick="startCamera()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            Start Camera
+                        </button>
+                        <button id="btn-stop" class="btn btn-danger" onclick="stopCamera()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12"/></svg>
+                            Stop Camera
+                        </button>
+                        <button id="btn-refresh" class="btn btn-outline" onclick="reloadStream()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="video-wrapper">
+                    <img id="video-stream" src="/video_feed" alt="Live YOLO Enclosure Feed" loading="eager">
+                    <div id="video-overlay-banner" class="video-overlay-banner">
+                        <span id="overlay-text">Camera Standby</span>
+                    </div>
+                </div>
+
+                <div class="video-meta-bar">
+                    <div class="meta-item">
+                        <span class="meta-label">Inference Engine:</span>
+                        <span class="meta-val">YOLOv8 PyTorch</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Resolution:</span>
+                        <span class="meta-val">1280 × 720</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Part Isolation Filter:</span>
+                        <span class="meta-val text-success">Active (No Double-Counting)</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Real-Time Detection Event Log -->
+            <section class="panel log-panel">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <h2>Detection History</h2>
+                        <span class="badge-count" id="log-count">0 events</span>
+                    </div>
+                    <button class="btn btn-sm btn-outline" onclick="clearHistory()">Clear History</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">Time</th>
+                                <th>Class</th>
+                                <th style="width: 140px;">Confidence</th>
+                                <th style="width: 75px;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-tbody">
+                            <tr class="empty-row">
+                                <td colspan="4">No detections recorded yet. Start camera to detect parts.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="log-footer">
+                    <span>Target Classes: <code>enclosure_assembled</code>, <code>top</code>, <code>bottom</code></span>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <div>Edge AI Inspection System • Hardware: Windows Laptop / Raspberry Pi Ready</div>
+        <div class="status-cluster">
+            <span>Server: <strong id="server-status">Connected</strong></span>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        let isCameraActive = false;
+
+        async function fetchTelemetry() {
+            try {
+                const res = await fetch('/api/telemetry');
+                if (!res.ok) throw new Error("HTTP error " + res.status);
+                const data = await res.json();
+
+                // Update FPS & Status
+                document.getElementById('nav-fps').innerText = data.fps.toFixed(1);
+                const statusDot = document.getElementById('status-dot');
+                const navStatus = document.getElementById('nav-camera-status');
+                const recIndicator = document.getElementById('rec-indicator');
+                const overlayBanner = document.getElementById('video-overlay-banner');
+                const overlayText = document.getElementById('overlay-text');
+
+                navStatus.innerText = data.status;
+
+                if (data.status === 'Online') {
+                    isCameraActive = true;
+                    statusDot.className = 'status-dot online';
+                    recIndicator.className = 'rec-indicator active';
+                    overlayBanner.style.display = 'none';
+                    document.getElementById('btn-start').disabled = true;
+                    document.getElementById('btn-stop').disabled = false;
+                } else if (data.status === 'Error') {
+                    isCameraActive = false;
+                    statusDot.className = 'status-dot error';
+                    recIndicator.className = 'rec-indicator';
+                    overlayBanner.style.display = 'flex';
+                    overlayText.innerText = data.error || 'Camera Error';
+                    document.getElementById('btn-start').disabled = false;
+                    document.getElementById('btn-stop').disabled = true;
+                } else {
+                    isCameraActive = false;
+                    statusDot.className = 'status-dot stopped';
+                    recIndicator.className = 'rec-indicator';
+                    overlayBanner.style.display = 'flex';
+                    overlayText.innerText = 'Camera Standby';
+                    document.getElementById('btn-start').disabled = false;
+                    document.getElementById('btn-stop').disabled = true;
+                }
+
+                // Update KPI counters
+                document.getElementById('count-assembled').innerText = data.counts.assembled || 0;
+                document.getElementById('count-top').innerText = data.counts.top || 0;
+                document.getElementById('count-bottom').innerText = data.counts.bottom || 0;
+                document.getElementById('count-total').innerText = data.counts.total || 0;
+
+                // Update Detection History Table
+                renderHistoryTable(data.history || []);
+                document.getElementById('server-status').innerText = 'Connected';
+                document.getElementById('server-status').style.color = '#2ecc71';
+            } catch (err) {
+                document.getElementById('server-status').innerText = 'Disconnected';
+                document.getElementById('server-status').style.color = '#e74c3c';
+            }
+        }
+
+        function renderHistoryTable(events) {
+            const tbody = document.getElementById('history-tbody');
+            document.getElementById('log-count').innerText = `${events.length} events`;
+
+            if (events.length === 0) {
+                tbody.innerHTML = `<tr class="empty-row"><td colspan="4">No detections recorded yet. Start camera to detect parts.</td></tr>`;
+                return;
+            }
+
+            let html = '';
+            for (const item of events) {
+                let badgeClass = 'badge-other';
+                let tagLabel = item.class;
+                if (item.class === 'enclosure_assembled') {
+                    badgeClass = 'badge-assembled';
+                    tagLabel = 'Assembled';
+                } else if (item.class === 'top') {
+                    badgeClass = 'badge-top';
+                    tagLabel = 'Top Cover';
+                } else if (item.class === 'bottom') {
+                    badgeClass = 'badge-bottom';
+                    tagLabel = 'Bottom Base';
+                }
+
+                html += `
+                    <tr>
+                        <td class="mono time-cell">${item.timestamp}</td>
+                        <td><span class="status-badge ${badgeClass}">${tagLabel}</span></td>
+                        <td>
+                            <div class="confidence-bar-wrap">
+                                <span class="mono">${item.confidence}%</span>
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" style="width: ${item.confidence}%;"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="text-success mono font-semibold">VALID</span></td>
+                    </tr>
+                `;
+            }
+            tbody.innerHTML = html;
+        }
+
+        async function startCamera() {
+            try {
+                const res = await fetch('/api/start', { method: 'POST' });
+                const json = await res.json();
+                if (!json.success && json.error) {
+                    alert('Camera Start Error: ' + json.error);
+                }
+                reloadStream();
+                fetchTelemetry();
+            } catch (e) {
+                alert('Failed to contact server: ' + e);
+            }
+        }
+
+        async function stopCamera() {
+            try {
+                await fetch('/api/stop', { method: 'POST' });
+                reloadStream();
+                fetchTelemetry();
+            } catch (e) {
+                alert('Failed to stop camera: ' + e);
+            }
+        }
+
+        async function clearHistory() {
+            await fetch('/api/clear_history', { method: 'POST' });
+            fetchTelemetry();
+        }
+
+        function reloadStream() {
+            const img = document.getElementById('video-stream');
+            img.src = '/video_feed?t=' + new Date().getTime();
+        }
+
+        // Poll telemetry every 600ms
+        setInterval(fetchTelemetry, 600);
+        window.addEventListener('DOMContentLoaded', fetchTelemetry);
+    </script>
+</body>
+</html>
+

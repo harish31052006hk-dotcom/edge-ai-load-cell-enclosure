@@ -1,0 +1,12 @@
+# Edge AI Enclosure Detection & Web Dashboard
+# Compatible with Windows & Raspberry Pi (Raspberry Pi OS / Linux)
+
+flask>=2.3.0
+ultralytics>=8.0.0
+opencv-python>=4.8.0
+numpy>=1.24.0
+requests>=2.28.0
+
+# Optional production WSGI server for Raspberry Pi / Linux deployment
+gunicorn>=21.0.0
+
