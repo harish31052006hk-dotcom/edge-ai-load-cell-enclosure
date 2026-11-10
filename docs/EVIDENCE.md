@@ -15,9 +15,9 @@ This document provides a verified index of all physical evidence, screenshots, t
 
 ### Baseline Test Images (`evidence/M1/testing/`)
 1. [`evidence/M1/testing/test_image.jpg`](../evidence/M1/testing/test_image.jpg) - Assembled enclosure photograph.
-2. [`evidence/M1/testing/bottom_test.jpg`](../evidence/M1/testing/bottom_test.jpg) - Bottom component photograph.
-3. [`evidence/M1/testing/top_test.jpg`](../evidence/M1/testing/top_test.jpg) - Top cover photograph.
-4. [`evidence/M1/testing/top_bottom_separate_test.jpg`](../evidence/M1/testing/top_bottom_separate_test.jpg) - Simultaneous dual-part photograph.
+2. [`evidence/M1/testing/bottom.png`](../evidence/M1/testing/bottom.png) - Bottom component photograph.
+3. [`evidence/M1/testing/top.png`](../evidence/M1/testing/top.png) - Top cover photograph.
+4. [`evidence/M1/testing/top and bottom.png`](../evidence/M1/testing/top and bottom.png) - Simultaneous dual-part photograph.
 
 ### Baseline Interface Screenshots (`evidence/M1/screenshots/`)
 1. [`evidence/M1/screenshots/Screenshot 2026-11-10 173520.png`](../evidence/M1/screenshots/Screenshot%202026-11-10%20173520.png) - Web inspection dashboard overview.
@@ -31,9 +31,9 @@ This document provides a verified index of all physical evidence, screenshots, t
 ### Detection Verification (`evidence/M2/detection/`)
 Verified bounding box coordinates and confidence ratings:
 - `test_image.jpg`: `enclosure_assembled` ($85.8\%$, box $[107, 323, 742, 698]$)
-- `bottom_test.jpg`: `bottom` ($78.9\%$, box $[68, 556, 739, 929]$)
-- `top_test.jpg`: `top` ($83.1\%$, box $[310, 244, 928, 814]$)
-- `top_bottom_separate_test.jpg`: `bottom` ($85.6\%$) & `top` ($72.4\%$)
+- `bottom.png`: `bottom` ($78.9\%$, box $[68, 556, 739, 929]$)
+- `top.png`: `top` ($83.1\%$, box $[310, 244, 928, 814]$)
+- `top and bottom.png`: `bottom` ($85.6\%$) & `top` ($72.4\%$)
 
 ### Results & Calibration (`evidence/M2/results/`)
 - [`evidence/M2/results/calibration.json`](../evidence/M2/results/calibration.json) - Recorded calibration run and independent validation report.

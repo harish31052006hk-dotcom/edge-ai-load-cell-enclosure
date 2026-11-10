@@ -31,17 +31,17 @@ This document defines the physical and software testing procedures for the Edge 
 - **Status:** **PASS**
 
 ### Test Case 3: Individual Bottom Base Detection
-- **Sample:** [`datasets/bottom_test.jpg`](../datasets/bottom_test.jpg)
+- **Sample:** [`datasets/bottom.png`](../datasets/bottom.png)
 - **Observed:** `bottom` detected at **78.9%** confidence.
 - **Status:** **PASS**
 
 ### Test Case 4: Individual Top Cover Detection
-- **Sample:** [`datasets/top_test.jpg`](../datasets/top_test.jpg)
+- **Sample:** [`datasets/top.png`](../datasets/top.png)
 - **Observed:** `top` detected at **83.1%** confidence.
 - **Status:** **PASS**
 
 ### Test Case 5: Simultaneous Multi-Part Scene
-- **Sample:** [`datasets/top_bottom_separate_test.jpg`](../datasets/top_bottom_separate_test.jpg)
+- **Sample:** [`datasets/top and bottom.png`](../datasets/top and bottom.png)
 - **Observed:**
   - `bottom`: **85.6%**
   - `top`: **72.4%**

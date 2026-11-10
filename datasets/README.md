@@ -15,9 +15,9 @@ This directory holds the raw photographic test samples used to validate the Edge
 | File Name | Target Class | Resolution | Description |
 | :--- | :--- | :--- | :--- |
 | [`test_image.jpg`](./test_image.jpg) | `enclosure_assembled` | Full resolution photograph | Assembled load cell enclosure unit under evaluation lighting. |
-| [`bottom_test.jpg`](./bottom_test.jpg) | `bottom` | Full resolution photograph | Separate lower base component showing cavity and mounting geometry. |
-| [`top_test.jpg`](./top_test.jpg) | `top` | Full resolution photograph | Separate upper cover component. |
-| [`top_bottom_separate_test.jpg`](./top_bottom_separate_test.jpg) | `top` & `bottom` | Full resolution photograph | Dual-component scene testing simultaneous independent classification. |
+| [`bottom.png`](./bottom.png) | `bottom` | Full resolution photograph | Separate lower base component showing cavity and mounting geometry. |
+| [`top.png`](./top.png) | `top` | Full resolution photograph | Separate upper cover component. |
+| [`top and bottom.png`](./top and bottom.png) | `top` & `bottom` | Full resolution photograph | Dual-component scene testing simultaneous independent classification. |
 
 ## Dataset Split & Training Lineage
 - **Full Training Dataset:** Annotated and hosted remotely via **Roboflow**.

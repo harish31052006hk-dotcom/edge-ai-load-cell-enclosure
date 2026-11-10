@@ -123,9 +123,9 @@ Comprehensive testing protocols and empirical results are detailed in [docs/TEST
 
 Summary of verified physical test samples:
 - `test_image.jpg`: `enclosure_assembled` detected at **85.8%** confidence.
-- `bottom_test.jpg`: `bottom` detected at **78.9%** confidence.
-- `top_test.jpg`: `top` detected at **83.1%** confidence.
-- `top_bottom_separate_test.jpg`: `bottom` (**85.6%**) and `top` (**72.4%**) detected simultaneously.
+- `bottom.png`: `bottom` detected at **78.9%** confidence.
+- `top.png`: `top` detected at **83.1%** confidence.
+- `top and bottom.png`: `bottom` (**85.6%**) and `top` (**72.4%**) detected simultaneously.
 
 ---
 
@@ -221,9 +221,9 @@ Edge_AI_Enclosure/
 ├── datasets/
 │   ├── README.md                   # Dataset details and sample descriptions
 │   ├── test_image.jpg              # Assembled enclosure test photograph
-│   ├── bottom_test.jpg             # Bottom component test photograph
-│   ├── top_test.jpg                # Top cover test photograph
-│   └── top_bottom_separate_test.jpg# Dual-component test photograph
+│   ├── bottom.png             # Bottom component test photograph
+│   ├── top.png                # Top cover test photograph
+│   └── top and bottom.png# Dual-component test photograph
 ├── docs/
 │   ├── M1.md                       # Milestone 1 documentation
 │   ├── M2.md                       # Milestone 2 documentation
