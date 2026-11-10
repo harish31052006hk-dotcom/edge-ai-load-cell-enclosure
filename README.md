@@ -93,7 +93,7 @@ Milestone 1 establishes the baseline edge computer vision pipeline, local hardwa
 | **OpenCV Pipeline** | **Completed** | [src/calibration.py](./src/calibration.py) (Bilateral filter, Canny, Otsu, `minAreaRect`) |
 | **Baseline Testing** | **Completed** | [benchmark/M1_baseline.md](./benchmark/M1_baseline.md), [docs/TESTING.md](./docs/TESTING.md) |
 | **Dataset / Test Images** | **Completed** | [datasets/](./datasets/) (4 verified physical test photographs) |
-| **Correct Dataset Split** | **Not completed / Not available** | Dataset was curated and split remotely on Roboflow; split manifests are not stored locally in this repository. |
+| **Correct Dataset Split** | **Complete & Verified — Split Distribution** | [evidence/M1/05_correct_split/M1_Dataset_Split_Report.md](./evidence/M1/05_correct_split/M1_Dataset_Split_Report.md) |
 | **Train and Run Detector**| **Completed** | [models/weights.pt](./models/weights.pt) (YOLO26 Small trained via Roboflow and verified) |
 
 For comprehensive M1 details, see the [Milestone 1 Documentation](docs/M1.md).
