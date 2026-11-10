@@ -28,7 +28,7 @@ from ultralytics import YOLO
 # -------------------------------------------------------------
 MODEL_PATH = "weights.pt"
 CAMERA_INDEX = int(os.environ.get("CAMERA_INDEX", 0))  # 0 for default webcam, /dev/video0 on Linux
-CONF_THRESHOLD = float(os.environ.get("CONF_THRESHOLD", 0.50))
+CONF_THRESHOLD = float(os.environ.get("CONF_THRESHOLD", 0.25))
 FRAME_WIDTH = int(os.environ.get("FRAME_WIDTH", 1280))
 FRAME_HEIGHT = int(os.environ.get("FRAME_HEIGHT", 720))
 HOST = os.environ.get("HOST", "0.0.0.0")

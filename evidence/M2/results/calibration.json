@@ -1,0 +1,27 @@
+{
+    "px_per_mm_x": 4.0938,
+    "px_per_mm_y": 1.0625,
+    "calibration_target": "top_cover",
+    "calibration_target_nominal_mm": 32.0,
+    "measured_top_horizontal_px": 131.0,
+    "measured_top_vertical_px": 34.0,
+    "pixel_aspect_ratio_x_to_y": 3.8529,
+    "camera_resolution": [
+        1280,
+        720
+    ],
+    "timestamp": "2026-11-04 18:01:23",
+    "validation": {
+        "status": "VALIDATION_FAILED",
+        "validation_sample": "bottom_base",
+        "nominal_dimension_mm": 32.0,
+        "tolerance_mm": 0.5,
+        "measured_width_mm": 33.47,
+        "measured_height_mm": 49.88,
+        "error_width_mm": 1.47,
+        "error_height_mm": 17.88,
+        "pass_width": false,
+        "pass_height": false,
+        "timestamp": "2026-11-04 18:01:23"
+    }
+}
