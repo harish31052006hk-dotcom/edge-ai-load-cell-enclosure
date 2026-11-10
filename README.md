@@ -14,6 +14,18 @@ A real-time Edge AI computer vision and quality inspection system designed for d
 This repository contains the complete implementation of a computer vision inspection station built with **Ultralytics YOLO** and **OpenCV**, accompanied by a live industrial **Flask** web dashboard. The system detects individual components (`bottom`, `top`) and fully mated assemblies (`enclosure_assembled`), monitors live inspection telemetry, logs timestamped detection records, and provides camera calibration and sub-pixel edge detection capabilities.
 
 ---
+## Milestone Overview
+
+| Milestone | Focus | Status | Evidence |
+|---|---|---|---|
+| M1 | Edge AI model, camera pipeline and dataset | Complete | [evidence/M1](docs/M1.md) |
+| M2 | Detection evaluation and CPU baseline | Complete | [evidence/M2](docs/M2.md) |
+| M3 | Real-time decision, debounce and actuation | Evidence imported | [evidence/M3](evidence/M3/README.md) |
+| M4 | Sensor monitoring, anomaly detection and industrial communication | Evidence imported | [evidence/M4](evidence/M4/README.md) |
+| M5 | Integrated inspection system and dashboard | Evidence imported | [evidence/M5](evidence/M5/README.md) |
+
+---
+
 
 ## Objective
 
@@ -116,6 +128,72 @@ Milestone 2 evaluates detection performance, multi-class discrimination, anti-do
 For comprehensive M2 details, see the [Milestone 2 Documentation](docs/M2.md).
 
 ---
+# Milestone 3 — Real-Time Safety / Actuation System
+
+Milestone 3 focuses on implementing real-time decision-making, dual-stream processing, temporal debounce filtering, and physical actuator triggering based on edge detection results.
+
+### Purpose of M3
+The goal of M3 is to translate raw visual detections into reliable physical control signals without false-triggering or chatter caused by transient detections or momentary occlusions.
+
+### System Architecture & Implemented Components
+- **Decision Rule / Logic**: Evaluates component presence and assembly conditions against defined pass/fail safety rules. In the group safety setup, it verifies worker compliance with safety items before activating operational indicators. Evidence is documented in the [dashboard helmet detection HUD](evidence/M3/group/decision-rule-sheet/dashboard%28helemt%29.jpeg).
+- **Two-Stream Pipeline**: Captures and processes multi-source streams concurrently on edge hardware. Implemented using live camera ingestion on a Raspberry Pi 5 node, verified via [Arducam live frame capture](evidence/M3/group/two-stream-pipeline/from_raspberrypi_camera.jpeg) and the [Roboflow annotation workbench](evidence/M3/group/two-stream-pipeline/roboflow_annotation.jpeg).
+- **Debounce Mechanism**: A temporal consistency filter that requires consecutive matching detection frames across a time window before committing a state change, preventing false alerts. Verified in multi-class compliance state ([compliant worker detection](evidence/M3/group/debounce/both%20glove%20and%20helmet.jpeg)).
+- **Actuator / LED Firing**: Drives physical GPIO outputs upon validated rule transitions. Demonstrated via hardware LED actuation on the Raspberry Pi GPIO pins, captured in [3-LED actuation video](evidence/M3/group/actuator-fires/3_led_blinking_video.mp4).
+- **Docker Status**: Docker containerization was not demonstrated with visual artifacts in the shared repository. No visual evidence is available in the imported teammate repository.
+- **End-to-End Latency**: Qualitative timing is documented through the [dashboard screen recording video](evidence/M3/group/end-to-end-latency/dashboard_screen_record%28m3%29.mp4); no standalone numerical benchmark or stopwatch latency figure is independently claimed.
+
+### Milestone 3 Evidence Index
+All imported M3 evidence files are organized in [evidence/M3](evidence/M3/README.md).  
+*Attribution note: Visual media in M3 are group evidence (group run on the shared Pi rig — my part: filming the group run — filmed by me).*
+
+---
+
+# Milestone 4 — Sensor Monitoring & Anomaly Detection
+
+Milestone 4 extends the edge node with multi-sensor physical telemetry ingestion, statistical and machine learning anomaly detection, secure industrial IoT communication, and reliability hardening.
+
+### Purpose of M4
+The objective of M4 is condition monitoring of electromechanical components (such as servo motors driving the inspection rig) using multi-modal sensor streams to detect degradation, stalls, or abnormal operating conditions before catastrophic failure.
+
+### Implemented Components & Evaluation
+- **Sensor Data Acquisition**: Multi-channel 10 Hz / 100 Hz serial telemetry stream from an Arduino Uno acquiring MPU6050 vibration, ACS712 current, DC bus voltage, and MAX9814 acoustic data. Evidence includes [sensor waveforms plot](evidence/M4/group/sensor-data/sensor_waveforms_plot.png), [live telemetry dashboard](evidence/M4/group/sensor-data/dashboard_live_telemetry.jpeg), and [serial monitor stream](evidence/M4/group/sensor-data/serial_monitor_streaming_frame.png).
+- **Anomaly Detection / Model**: Employs sliding-window multivariate feature extraction coupled with regularized statistical Z-Score / Isolation Forest scoring. Verified via [anomaly score trajectory chart](evidence/M4/group/anomaly-model/anomaly_score_trajectory.png) and [live anomaly detection event](evidence/M4/group/anomaly-model/dashboard_anomaly_detected.jpeg).
+- **False-Alarm Evaluation**: Tuned noise floor regularization (FEATURE_STD_FLOORS) and calibrated current thresholds reflect a group-reported 0.00% false-alarm rate across normal baseline cycles in the group evaluation, supported by the [confusion matrix heatmap](evidence/M4/group/false-alarms/confusion_matrix_heatmap.png) and [anomaly score distribution](evidence/M4/group/false-alarms/anomaly_score_distribution.png).
+- **Secure MQTT**: Hardened MQTTS on port 8883 utilizing TLS encryption and X.509 certificate authentication. Verified in [Mosquitto TLS configuration](evidence/M4/group/secure-mqtt/mosquitto_secure.conf).
+- **MQTT Topic Hierarchy**: Structured 7-topic taxonomy (motor/servo01/...) adhering to ISO 8601 timestamps, QoS policies, and schema specifications, illustrated in [topic hierarchy tree](evidence/M4/group/topics/topic_hierarchy_tree.png).
+- **PLC / Modbus Connection**: Industrial Modbus TCP slave bridge mapping 16-bit registers (Input, Holding, Coils) for supervisory control and E-Stop interlock, documented in [Modbus register map table](evidence/M4/group/plc-link/modbus_register_map_table.png).
+- **Threat Model (STRIDE / DREAD)**: Comprehensive security threat analysis evaluating 8 attack vectors across serial, network, and host boundaries, detailed in [STRIDE matrix](evidence/M4/group/threat-model/threat_model_stride_matrix.png).
+- **Reliability & Service Monitoring**: System resilience verified through serial auto-reconnection (<5s recovery), SQLite atomic batching, and systemd watchdog supervision shown in [systemd service status](evidence/M4/group/reliability/service_status_systemd.png).
+
+### Milestone 4 Evidence Index
+All imported M4 verification artifacts are indexed in [evidence/M4](evidence/M4/README.md).  
+*Attribution note: Results and metrics in M4 are group-reported from the shared teammate instrumentation bench.*
+
+---
+
+# Milestone 5 — Integrated Edge AI Inspection System
+
+Milestone 5 connects the vision inspection subsystem (M1/M2/M3) and the condition monitoring subsystem (M4) as an integrated inspection-system demonstration.
+
+### Purpose of M5
+To demonstrate an integrated edge inspection setup combining computer vision inspection, physical pass/fail sorting, electromechanical condition monitoring, and edge telemetry.
+
+### Integrated Subsystems & Performance
+- **Inspection Rig**: Physical testing bench combining the camera imaging assembly, workpiece staging surface, and edge compute hardware. Documented in [physical camera feed](evidence/M5/group/inspection-rig/01_physical_camera_feed.jpeg) and [Raspberry Pi 5 edge node photo](evidence/M5/group/inspection-rig/03_raspberry_pi_5_edge_node.jpeg).
+- **Pass/Fail Station**: Automated quality assessment station evaluating parts against nominal specifications and logging inspection decisions. Backed by [assessment benchmark screenshot](evidence/M5/group/pass-fail-station/06_assessment_benchmarks.png) and [20-sample pass/fail results CSV](evidence/M5/group/pass-fail-station/pass_fail_20_results.csv).
+- **Full Device Processing Chain**: Continuous 10-minute end-to-end execution of the combined vision and sensor pipeline running directly on the edge device is group-reported, verified in [10-minute run log](evidence/M5/group/full-chain-on-the-device/10_minute_chain_run_log.txt) and [chain run report](evidence/M5/group/full-chain-on-the-device/10_minute_chain_report.json).
+- **Live Dashboard**: Unified industrial web dashboard displaying synchronized camera feeds, detection HUD, motor condition telemetry oscilloscope, and anomaly alarm centers. Documented via [dashboard overview](evidence/M5/group/live-dashboard/01_dashboard_overview.png), [vision inspection rig panel](evidence/M5/group/live-dashboard/02_vision_inspection_rig.png), and [motor anomaly alert display](evidence/M5/group/live-dashboard/04_live_motor_anomaly_alert.png).
+- **Product Readiness & System Health**: Real-time diagnostic monitoring tracking CPU load, memory utilization, disk usage, and temperature to verify operational readiness, recorded in [system health status](evidence/M5/group/product-readiness/07_system_health.png).
+- **Headline Metric**: Statistical sorting results across 50 consecutive cycles are group-reported and documented in the imported [headline metric 50 results CSV](evidence/M5/group/headline-metric/headline_metric_50_results.csv).
+- **Documents & Live Demo Status**: Architectural datasheets and operating workflows are preserved in teammate documentation; no dedicated standalone visual recordings exist for live demo Q&A in the imported repository.
+
+### Milestone 5 Evidence Index
+All imported M5 artifacts are indexed in [evidence/M5](evidence/M5/README.md).  
+*Attribution note: Hardware setup media represents group evidence on the shared rig; operational logs and performance metrics are group-reported.*
+
+---
+
 
 ## Testing
 
