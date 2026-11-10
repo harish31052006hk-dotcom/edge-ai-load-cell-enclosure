@@ -38,6 +38,15 @@ this folder).
 | Docker | 4 | container built, healthy, restart policy + systemd unit | [3.5](#35-docker) |
 | End-to-end latency | 2 | 25 events: frame → actuator p95 8.8 ms (laptop) | [3.6](#36-end-to-end-latency) |
 
+
+---
+
+## Evidence Navigation
+
+| **Decision rule sheet** | **Link** | **Two-stream pipeline** | **Link** | **Debounce** | **Link** | **Actuator fires** | **Link** | **Docker** | **Link** | **End-to-end latency** | **Link** |
+| :---------------------: | :------: | :---------------------: | :------: | :----------: | :------: | :----------------: | :------: | :--------: | :------: | :--------------------: | :------: |
+| Evidence | [Link](./group/01_decision_rule_sheet/) | Evidence | [Link](./group/02_two_stream_pipeline/) | Evidence | [Link](./group/03_debounce/) | Evidence | [Link](./group/04_actuator_fires/) | Evidence | [Link](./group/05_docker/) | Evidence | [Link](./group/06_end_to_end_latency/) |
+
 ---
 
 ## 3.1 Decision rule sheet

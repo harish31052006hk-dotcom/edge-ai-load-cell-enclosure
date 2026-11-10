@@ -35,6 +35,15 @@ Group media caption: *group run on the shared Pi rig — my part: filming the gr
 | Documents | 1 | README, datasheet, architecture, stack diagram, demo script — own commits | [5.7](#57-documents) |
 | Live demo and questions | 1 | timed demo script: power cycle, normal run, injected fault | [5.8](#58-live-demo-and-questions) |
 
+
+---
+
+## Evidence Navigation
+
+| **Inspection rig** | **Link** | **Pass/fail station** | **Link** | **Full chain on the device** | **Link** | **Live dashboard** | **Link** | **Product readiness** | **Link** | **Headline metric** | **Link** | **Documents** | **Link** | **Live demo and questions** | **Link** |
+| :----------------: | :------: | :-------------------: | :------: | :--------------------------: | :------: | :----------------: | :------: | :-------------------: | :------: | :-----------------: | :------: | :-----------: | :------: | :-------------------------: | :------: |
+| Evidence | [Link](./group/01_inspection_rig/) | Evidence | [Link](./group/02_pass_fail_station/) | Evidence | [Link](./group/03_full_chain_device/) | Evidence | [Link](./group/04_live_dashboard/) | Evidence | [Link](./group/05_product_readiness/) | Evidence | [Link](./group/06_headline_metric/) | Evidence | [Link](./group/07_documents/) | Evidence | [Link](./group/08_live_demo_questions/) |
+
 ---
 
 ## 5.1 Inspection rig

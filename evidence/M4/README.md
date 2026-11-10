@@ -41,6 +41,15 @@ rather than from recorded scores, it says so.
 | Threat model | 1 | 1 threat per level (4 levels), 5 mitigations applied | [4.7](#47-threat-model) |
 | Reliability | 3 | drift report; OTA v1 → v2, broken v3 rolled back; restart after crash 1.2 s | [4.8](#48-reliability) |
 
+
+---
+
+## Evidence Navigation
+
+| **Sensor data** | **Link** | **Anomaly model** | **Link** | **False alarms** | **Link** | **Secure MQTT** | **Link** | **Topics** | **Link** | **PLC link** | **Link** | **Threat model** | **Link** | **Reliability** | **Link** |
+| :-------------: | :------: | :---------------: | :------: | :--------------: | :------: | :-------------: | :------: | :--------: | :------: | :----------: | :------: | :--------------: | :------: | :-------------: | :------: |
+| Evidence | [Link](./group/01_sensor_data/) | Evidence | [Link](./group/02_anomaly_model/) | Evidence | [Link](./group/03_false_alarms/) | Evidence | [Link](./group/04_secure_mqtt/) | Evidence | [Link](./group/05_topics/) | Evidence | [Link](./group/06_plc_link/) | Evidence | [Link](./group/07_threat_model/) | Evidence | [Link](./group/08_reliability/) |
+
 ---
 
 ## 4.1 Sensor data
