@@ -45,7 +45,7 @@ this folder).
 
 | **Decision rule sheet** | **Link** | **Two-stream pipeline** | **Link** | **Debounce** | **Link** | **Actuator fires** | **Link** | **Docker** | **Link** | **End-to-end latency** | **Link** |
 | :---------------------: | :------: | :---------------------: | :------: | :----------: | :------: | :----------------: | :------: | :--------: | :------: | :--------------------: | :------: |
-| Evidence | [Link](./group/01_decision_rule_sheet/) | Evidence | [Link](./group/02_two_stream_pipeline/) | Evidence | [Link](./group/03_debounce/) | Evidence | [Link](./group/04_actuator_fires/) | Evidence | [Link](./group/05_docker/) | Evidence | [Link](./group/06_end_to_end_latency/) |
+| Evidence | [Link](./group/01_decision_rule_sheet/) | Evidence | [Link](./group/02_two_stream_pipeline/) | Evidence | [Link](./group/03_debounce/) | Evidence | [Link](./group/04_actuator_fires/) | Not included | N/A | Evidence | [Link](./group/06_end_to_end_latency/) |
 
 ---
 
